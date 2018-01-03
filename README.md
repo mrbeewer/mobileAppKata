@@ -5,4 +5,6 @@ overview is detailed in `Mobile Application Development Kata.doc` and the specif
 are detailed in `mobile-vending-machine-kata.txt`, both of which are included
 in the repo.
 
-## More to come.... ##
+## Tools being used ##
+ * [SwiftLint](https://github.com/realm/SwiftLint): not necessary, being used
+for style consistency.
