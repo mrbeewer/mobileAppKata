@@ -12,6 +12,10 @@ class MachineTests: XCTestCase {
 
     var machine: Machine!
     var totalMoney: Double = 0.0
+    
+    var cola: Products!
+    var chips: Products!
+    var candy: Products!
 
     var display: UILabel = UILabel()
 
@@ -26,6 +30,11 @@ class MachineTests: XCTestCase {
         totalMoney = 0.25 * 10.0 + 0.10 * 10.0 + 0.05 * 10.0 + 0.01 * 0.0
 
         machine = Machine(coinsInMachine: coinsInMachine, display: display)
+        
+        // create products
+        cola = Products(type: Products.VendingItemType.cola, price: 1.0, inventory: 10)
+        chips = Products(type: Products.VendingItemType.chips, price: 0.50, inventory: 10)
+        candy = Products(type: Products.VendingItemType.candy, price: 0.65, inventory: 10)
     }
 
     override func tearDown() {
@@ -68,32 +77,32 @@ class MachineTests: XCTestCase {
         totalInsertedInMachine = machine.getCoinsInsertedTotal()
         XCTAssert(totalInsertedInMachine == totalInserted,
                   "Inserted a quarter, total (\(totalInsertedInMachine)) should be \(totalInserted).")
-        XCTAssert(display.text! == "Inserted: $0.25", "Display text is \(display.text!)," +
-            " should read 'Inserted: $0.25'.")
+        XCTAssert(display.text! == "INSERTED: $0.25", "Display text is \(display.text!)," +
+            " should read 'INSERTED: $0.25'.")
 
         machine.insertMoney(type: Coins.CoinTypes.dime)
         totalInserted += Coins.CoinTypes.dime.rawValue
         totalInsertedInMachine = machine.getCoinsInsertedTotal()
         XCTAssert(totalInsertedInMachine == totalInserted,
                   "Inserted a dime, total (\(totalInsertedInMachine)) should be \(totalInserted).")
-        XCTAssert(display.text! == "Inserted: $0.35", "Display text is \(display.text!)," +
-            "  should read 'Inserted: $0.35'.")
+        XCTAssert(display.text! == "INSERTED: $0.35", "Display text is \(display.text!)," +
+            "  should read 'INSERTED: $0.35'.")
 
         machine.insertMoney(type: Coins.CoinTypes.nickel)
         totalInserted += Coins.CoinTypes.nickel.rawValue
         totalInsertedInMachine = machine.getCoinsInsertedTotal()
         XCTAssert(totalInsertedInMachine == totalInserted,
                   "Inserted a nickel, total (\(totalInsertedInMachine)) should be \(totalInserted).")
-        XCTAssert(display.text! == "Inserted: $0.40", "Display text is \(display.text!)," +
-            "  should read 'Inserted: $0.40'.")
+        XCTAssert(display.text! == "INSERTED: $0.40", "Display text is \(display.text!)," +
+            "  should read 'INSERTED: $0.40'.")
 
         machine.insertMoney(type: Coins.CoinTypes.penny)
         // totalInserted should not change, we are returning pennies
         totalInsertedInMachine = machine.getCoinsInsertedTotal()
         XCTAssert(totalInsertedInMachine == totalInserted,
                   "Inserted a penny, total (\(totalInsertedInMachine)) should be \(totalInserted).")
-        XCTAssert(display.text! == "Inserted: $0.40", "Display text is \(display.text!)," +
-            "  should read 'Inserted: $0.40'.")
+        XCTAssert(display.text! == "INSERTED: $0.40", "Display text is \(display.text!)," +
+            "  should read 'INSERTED: $0.40'.")
 
         XCTAssert(machine.moneyInCoinReturn().pennies == 1,
                   "Inserted a penny, coin return should only contain a single penny.")
@@ -113,8 +122,6 @@ class MachineTests: XCTestCase {
             machine.insertMoney(type: Coins.CoinTypes.quarter)
         }
 
-        let cola = Products(type: Products.VendingItemType.cola, price: 1.0, inventory: 10)
-
         machine.makeChange(product: cola)
         let emptyCoinReturn = Machine.MoneyCollection(quarters: 0, dimes: 0, nickels: 0, pennies: 0)
         XCTAssert(machine.moneyInCoinReturn().total() == emptyCoinReturn.total(),
@@ -129,8 +136,6 @@ class MachineTests: XCTestCase {
         for _ in 1...8 {
             machine.insertMoney(type: Coins.CoinTypes.quarter)
         }
-
-        let cola = Products(type: Products.VendingItemType.cola, price: 1.0, inventory: 10)
 
         machine.makeChange(product: cola)
         let correctCoinReturn = Machine.MoneyCollection(quarters: 4, dimes: 0, nickels: 0, pennies: 0)
@@ -159,8 +164,6 @@ class MachineTests: XCTestCase {
             machine.insertMoney(type: Coins.CoinTypes.dime)
         }
         
-        let cola = Products(type: Products.VendingItemType.cola, price: 1.0, inventory: 10)
-        
         machine.makeChange(product: cola)
         let correctCoinReturn = Machine.MoneyCollection(quarters: 0, dimes: 2, nickels: 0, pennies: 0)
         
@@ -187,9 +190,7 @@ class MachineTests: XCTestCase {
         for _ in 1...1 {
             machine.insertMoney(type: Coins.CoinTypes.nickel)
         }
-        
-        let cola = Products(type: Products.VendingItemType.cola, price: 1.0, inventory: 10)
-        
+
         machine.makeChange(product: cola)
         let correctCoinReturn = Machine.MoneyCollection(quarters: 0, dimes: 0, nickels: 1, pennies: 0)
         
@@ -218,8 +219,6 @@ class MachineTests: XCTestCase {
         machine.insertMoney(type: Coins.CoinTypes.dime)
         machine.insertMoney(type: Coins.CoinTypes.nickel)
         
-        let cola = Products(type: Products.VendingItemType.cola, price: 1.0, inventory: 10)
-        
         machine.makeChange(product: cola)
         let correctCoinReturn = Machine.MoneyCollection(quarters: 2, dimes: 1, nickels: 1, pennies: 1)
         
@@ -234,5 +233,114 @@ class MachineTests: XCTestCase {
         
         // display should be 'INSERT COINS'
         XCTAssert(display.text! == "INSERT COINS", "Display text should read 'INSERT COINS'.")
+    }
+    
+    /* Test purchasing an item with insufficient money inserted
+     * Check: insert $0.50, buy a cola -> no cola
+     */
+    func testMachinePurchaseWithInsufficientMoneyInsertedCola() {
+        for _ in 1...2 {
+            machine.insertMoney(type: Coins.CoinTypes.quarter)
+        }
+        
+        let success = machine.purchase(product: cola)
+        XCTAssert(!success, "Should not be able to purchase cola (\(cola.getPrice())" +
+            " with \(machine.getCoinsInsertedTotal())")
+        
+        // display should be 'PRICE: $1.00'
+        XCTAssert(display.text! == "PRICE: $1.00", "Display text should read 'PRICE: $1.00'.")
+    }
+    
+    /* Test purchasing an item with insufficient money inserted
+     * Check: insert $0.10, buy chips -> no chips
+     */
+    func testMachinePurchaseWithInsufficientMoneyInsertedChips() {
+        for _ in 1...1 {
+            machine.insertMoney(type: Coins.CoinTypes.dime)
+        }
+        
+        let success = machine.purchase(product: chips)
+        XCTAssert(!success, "Should not be able to purchase chips (\(chips.getPrice())" +
+            " with \(machine.getCoinsInsertedTotal())")
+        
+        // display should be 'PRICE: $0.50'
+        XCTAssert(display.text! == "PRICE: $0.50", "Display text should read 'PRICE: $0.50'.")
+    }
+    
+    /* Test purchasing an item with insufficient money inserted
+     * Check: insert $0.10, buy a candy -> no candy
+     */
+    func testMachinePurchaseWithInsufficientMoneyInsertedCandy() {
+        for _ in 1...1 {
+            machine.insertMoney(type: Coins.CoinTypes.dime)
+        }
+        
+        let success = machine.purchase(product: candy)
+        XCTAssert(!success, "Should not be able to purchase candy (\(candy.getPrice())" +
+            " with \(machine.getCoinsInsertedTotal())")
+        
+        // display should be 'PRICE: $0.65'
+        XCTAssert(display.text! == "PRICE: $0.65", "Display text should read 'PRICE: $0.65'.")
+    }
+    
+    /* Test purchasing an item with sufficient money inserted
+     * Check: insert $1.00, buy a cola -> dispense cola
+     */
+    func testMachinePurchaseWithSufficientMoneyInsertedCola() {
+        for _ in 1...4 {
+            machine.insertMoney(type: Coins.CoinTypes.quarter)
+        }
+
+        let success = machine.purchase(product: cola)
+        XCTAssert(success, "Failed purchasing cola (\(cola.getPrice()) with \(machine.getCoinsInsertedTotal())")
+    }
+    
+    /* Test purchasing an item with sufficient money inserted
+     * Check: insert $1.00, buy chips -> dispense chips
+     */
+    func testMachinePurchaseWithSufficientMoneyInsertedChips() {
+        for _ in 1...4 {
+            machine.insertMoney(type: Coins.CoinTypes.quarter)
+        }
+        
+        let success = machine.purchase(product: chips)
+        XCTAssert(success, "Failed purchasing chips (\(chips.getPrice()) with \(machine.getCoinsInsertedTotal())")
+        
+        let correctCoinReturn = Machine.MoneyCollection(quarters: 2, dimes: 0, nickels: 0, pennies: 0)
+        XCTAssert(machine.moneyInCoinReturn().quarters == 2)
+        XCTAssert(machine.moneyInCoinReturn().dimes == 0)
+        XCTAssert(machine.moneyInCoinReturn().nickels == 0)
+        XCTAssert(machine.moneyInCoinReturn().pennies == 0)
+        
+        XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
+                  "Inserted \(machine.getCoinsInsertedTotal()) and purchased chips for " +
+            "\(chips.getPrice()). CoinReturn should be $0.50.")
+    }
+    
+    /* Test purchasing an item with sufficient money inserted
+     * Check: insert $1.00, buy candy -> dispense candy
+     */
+    func testMachinePurchaseWithSufficientMoneyInsertedCandy() {
+        for _ in 1...4 {
+            machine.insertMoney(type: Coins.CoinTypes.quarter)
+        }
+        
+        let success = machine.purchase(product: candy)
+        XCTAssert(success, "Failed purchasing candy (\(candy.getPrice()) with \(machine.getCoinsInsertedTotal())")
+        
+        let correctCoinReturn = Machine.MoneyCollection(quarters: 1, dimes: 1, nickels: 0, pennies: 0)
+        XCTAssert(machine.moneyInCoinReturn().quarters == 1, "returned \(machine.moneyInCoinReturn().quarters)")
+        XCTAssert(machine.moneyInCoinReturn().dimes == 1, "returned \(machine.moneyInCoinReturn().dimes)")
+        XCTAssert(machine.moneyInCoinReturn().nickels == 0, "returned \(machine.moneyInCoinReturn().nickels)")
+        XCTAssert(machine.moneyInCoinReturn().pennies == 0, "returned \(machine.moneyInCoinReturn().pennies)")
+        
+        XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
+                  "Inserted \(machine.getCoinsInsertedTotal()) and purchased candy for " +
+            "\(candy.getPrice()). CoinReturn should be $0.35.")
+        
+        XCTAssert(display.text! == "THANK YOU", "Display text should read 'THANK YOU'.")
+        
+        XCTAssert(machine.getCoinsInsertedTotal() == 0.0,
+                  "All money should be returned, so CoinsInsertedTotal should be 0")
     }
 }
