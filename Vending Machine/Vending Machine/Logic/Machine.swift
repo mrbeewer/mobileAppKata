@@ -36,16 +36,18 @@ class Machine {
         print("Status: Initialize Machine")
         self.coinsInserted = 0.0
         self.coinsInMachine = coinsInMachine
-
-        self.stateExactChangeOnly = coinsInMachine.total() >= 1.0 ? true : false
-
+        self.stateExactChangeOnly = coinsInMachine.total() >= 1.0 ? false : true
         self.coinReturn = MoneyCollection()
-        
         self.coinReturnDisplay = UITextView()
         self.diagnosticsDisplay = UITextView()
         self.productArray = []
         self.display = display
-        self.display.text = "INSERT COINS"
+        
+        if self.stateExactChangeOnly {
+            self.display.text = "EXACT CHANGE ONLY"
+        } else {
+            self.display.text = "INSERT COINS"
+        }
     }
 
     deinit {
@@ -86,9 +88,9 @@ class Machine {
         default:
             addToInternalCoinStore(type: type)
             self.coinsInserted += type.rawValue
+            displayMoneyInserted()
         }
-
-        displayMoneyInserted()
+        
         updateDiagnosticsText()
     }
     
@@ -217,9 +219,11 @@ class Machine {
      Method to determine the correct quantities of coin types to make change
      
      - Parameters:
-     - product: The product being purchased.
+     - coins: The coins to change out.
      */
     func makeChange(coins: Double) {
+        canMakeChange()
+        
         var change = coins
         var numQuarters = Int(floor(change / Coins.CoinTypes.quarter.rawValue))
         if numQuarters >= self.coinsInMachine.quarters {
@@ -256,7 +260,8 @@ class Machine {
      */
     func purchase(product: Products) -> Bool {
         if inStock(product: product) {
-            if self.coinsInserted - product.getPrice() >= 0 {
+            if (self.coinsInserted - product.getPrice() > 0 && !self.stateExactChangeOnly) ||
+                (self.coinsInserted - product.getPrice() == 0) {
                 product.itemSold()
                 makeChangeFrom(product: product)
                 displayDone()
@@ -337,16 +342,17 @@ class Machine {
     }
     
     /// Sets the display to the default text - "INSERT COIN"
-    func displayExactChangeOnly() {
+    @objc func displayExactChangeOnly() {
         self.display.text = "EXACT CHANGE ONLY"
+        displayDelayShow()
     }
 
     /// Sets the display to the done state - "THANK YOU"
     func displayDone() {
         self.display.text = "THANK YOU"
         
-        // put the display back to default after 2 seconds
-        self.displayTimer = Timer.scheduledTimer(timeInterval: 2,
+        // put the display back to default after 1 seconds
+        self.displayTimer = Timer.scheduledTimer(timeInterval: 1,
                                                  target: self,
                                                  selector: #selector(displayDefault),
                                                  userInfo: nil,
@@ -367,15 +373,22 @@ class Machine {
     /// Sets the display back to default or money inserted with delay
     func displayDelayShow() {
         if self.coinsInserted > 0 {
-            // put the display back to default after 2 seconds
-            self.displayTimer = Timer.scheduledTimer(timeInterval: 2,
+            // put the display back to default after 1 seconds
+            self.displayTimer = Timer.scheduledTimer(timeInterval: 1,
                                                      target: self,
                                                      selector: #selector(displayMoneyInserted),
                                                      userInfo: nil,
                                                      repeats: false)
+        } else if self.stateExactChangeOnly {
+            // put the display back to default after 1 seconds
+            self.displayTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                     target: self,
+                                                     selector: #selector(displayExactChangeOnly),
+                                                     userInfo: nil,
+                                                     repeats: false)
         } else {
-            // put the display back to default after 2 seconds
-            self.displayTimer = Timer.scheduledTimer(timeInterval: 2,
+            // put the display back to default after 1 seconds
+            self.displayTimer = Timer.scheduledTimer(timeInterval: 1,
                                                      target: self,
                                                      selector: #selector(displayDefault),
                                                      userInfo: nil,

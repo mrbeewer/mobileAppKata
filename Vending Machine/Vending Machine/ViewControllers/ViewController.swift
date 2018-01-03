@@ -35,6 +35,7 @@ class ViewController: UIViewController {
     
     @IBAction func quarterTouchUp(_ sender: Any) {
         vmachine.insertMoney(type: Coins.CoinTypes.quarter)
+        print("asd")
     }
     @IBAction func dimeTouchUp(_ sender: Any) {
         vmachine.insertMoney(type: Coins.CoinTypes.dime)
@@ -57,7 +58,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         // give the machine coins
-        let coinsInMachine = Machine.MoneyCollection(quarters: 10, dimes: 10, nickels: 10, pennies: 0)
+        let coinsInMachine = Machine.MoneyCollection(quarters: 1, dimes: 1, nickels: 1, pennies: 0)
         // initialize the machine
         vmachine = Machine(coinsInMachine: coinsInMachine, display: self.displayLabel)
         // create the products

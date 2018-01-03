@@ -33,8 +33,10 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9N-C8-UKt" userLabel="cola">
                                         <rect key="frame" x="0.0" y="0.0" width="89" height="100"/>
-                                        <state key="normal" backgroundImage="Cola">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="26"/>
+                                        <state key="normal" title="$1.00" backgroundImage="Cola">
+                                            <color key="titleColor" red="0.0" green="1" blue="0.022883419001807681" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
                                             <action selector="colaTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IBE-Ei-9Su"/>
@@ -160,7 +162,6 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="collectCoinsFromReturnTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c1i-eA-RlM"/>
                                             <action selector="returnCoinsTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f0y-6d-G8g"/>
                                         </connections>
                                     </button>
