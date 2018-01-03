@@ -143,6 +143,9 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
                   "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
                   "\(cola.getPrice()). CoinReturn should be $1.00.")
+        
+        // display should be 'INSERT COINS'
+        XCTAssert(display.text! == "INSERT COINS", "Display text should read 'INSERT COINS'.")
     }
     
     /* Test that machine returns correct change
@@ -169,6 +172,9 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
                   "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
             "\(cola.getPrice()). CoinReturn should be $0.20.")
+        
+        // display should be 'INSERT COINS'
+        XCTAssert(display.text! == "INSERT COINS", "Display text should read 'INSERT COINS'.")
     }
     
     /* Test that machine returns correct change
@@ -195,6 +201,9 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
                   "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
             "\(cola.getPrice()). CoinReturn should be $0.05.")
+        
+        // display should be 'INSERT COINS'
+        XCTAssert(display.text! == "INSERT COINS", "Display text should read 'INSERT COINS'.")
     }
     
     /* Test that machine returns correct change
@@ -222,5 +231,8 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
                   "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
             "\(cola.getPrice()). CoinReturn should be $0.66.")
+        
+        // display should be 'INSERT COINS'
+        XCTAssert(display.text! == "INSERT COINS", "Display text should read 'INSERT COINS'.")
     }
 }

@@ -118,13 +118,15 @@ class Machine {
             sendToCoinReturn(type: Coins.CoinTypes.nickel, multiple: numNickel)
             
             // pennies are rejected when inserted
+            
+            displayDefault()
         }
     }
 
     // MARK: - Display Adjustments
     /// Sets the display to the default text - "INSERT COIN"
     func displayDefault() {
-        self.display.text = "INSERT COIN"
+        self.display.text = "INSERT COINS"
     }
 
     /// Sets the display to the done state - "THANK YOU"
