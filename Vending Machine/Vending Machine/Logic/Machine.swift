@@ -24,6 +24,8 @@ class Machine {
     private var coinReturn: MoneyCollection
 
     private var display: UILabel
+    var coinReturnDisplay: UITextView
+    var diagnosticsDisplay: UITextView
     private var displayTimer: Timer!
     
     var stateExactChangeOnly: Bool = false
@@ -38,6 +40,9 @@ class Machine {
         self.stateExactChangeOnly = coinsInMachine.total() >= 1.0 ? true : false
 
         self.coinReturn = MoneyCollection(quarters: 0, dimes: 0, nickels: 0, pennies: 0)
+        
+        self.coinReturnDisplay = UITextView()
+        self.diagnosticsDisplay = UITextView()
 
         self.display = display
         self.display.text = "INSERT COINS"
@@ -79,6 +84,7 @@ class Machine {
         }
 
         displayMoneyInserted()
+        updateDiagnosticsText()
     }
 
     /**
@@ -99,6 +105,9 @@ class Machine {
         case .penny:
             self.coinReturn.pennies += 1 * multiple
         }
+        
+        updateCoinReturnText()
+        updateDiagnosticsText()
     }
 
     /**
@@ -107,23 +116,12 @@ class Machine {
      - Parameters:
      - product: The product being purchased.
      */
-    func makeChange(product: Products) {
+    func makeChangeFrom(product: Products) {
         var change = self.coinsInserted - product.getPrice()
         change = Double(round(100*change)/100)
 
         if change > 0 {
-            let numQuarters = Int(floor(change / Coins.CoinTypes.quarter.rawValue))
-            sendToCoinReturn(type: Coins.CoinTypes.quarter, multiple: numQuarters)
-            
-            change -= 0.25 * Double(numQuarters)
-            change = Double(round(100*change)/100)
-            let numDime = Int(floor(change / Coins.CoinTypes.dime.rawValue))
-            sendToCoinReturn(type: Coins.CoinTypes.dime, multiple: numDime)
-            
-            change -= 0.10 * Double(numDime)
-            change = Double(round(100*change)/100)
-            let numNickel = Int(floor(change / Coins.CoinTypes.nickel.rawValue))
-            sendToCoinReturn(type: Coins.CoinTypes.nickel, multiple: numNickel)
+            makeChange(coins: change)
 
             // pennies are rejected when inserted
             
@@ -131,6 +129,44 @@ class Machine {
         }
         
         self.coinsInserted = 0.0
+        updateDiagnosticsText()
+    }
+    
+    /// Method to collect all coins from coin return
+    func emptyCoinReturn() {
+        self.coinReturn = MoneyCollection(quarters: 0, dimes: 0, nickels: 0, pennies: 0)
+        updateCoinReturnText()
+        updateDiagnosticsText()
+    }
+    
+    /// Method to return all coins
+    func returnCoins() {
+        makeChange(coins: self.coinsInserted)
+        updateCoinReturnText()
+        updateDiagnosticsText()
+        displayDefault()
+    }
+    
+    /**
+     Method to determine the correct quantities of coin types to make change
+     
+     - Parameters:
+     - product: The product being purchased.
+     */
+    func makeChange(coins: Double) {
+        var change = coins
+        let numQuarters = Int(floor(change / Coins.CoinTypes.quarter.rawValue))
+        sendToCoinReturn(type: Coins.CoinTypes.quarter, multiple: numQuarters)
+        
+        change -= 0.25 * Double(numQuarters)
+        change = Double(round(100*change)/100)
+        let numDime = Int(floor(change / Coins.CoinTypes.dime.rawValue))
+        sendToCoinReturn(type: Coins.CoinTypes.dime, multiple: numDime)
+        
+        change -= 0.10 * Double(numDime)
+        change = Double(round(100*change)/100)
+        let numNickel = Int(floor(change / Coins.CoinTypes.nickel.rawValue))
+        sendToCoinReturn(type: Coins.CoinTypes.nickel, multiple: numNickel)
     }
     
     // MARK: - Product
@@ -143,16 +179,19 @@ class Machine {
     func purchase(product: Products) -> Bool {
         if inStock(product: product) {
             if self.coinsInserted - product.getPrice() >= 0 {
-                makeChange(product: product)
+                makeChangeFrom(product: product)
                 displayDone()
+                updateDiagnosticsText()
                 return true
             } else if self.coinsInserted - product.getPrice() < 0 {
                 displayPriceOfProduct(product: product)
+                updateDiagnosticsText()
             }
             
             return false
         } else {
             displaySoldOut()
+            updateDiagnosticsText()
             return false
         }
     }
@@ -179,6 +218,23 @@ class Machine {
         } else {
             self.stateExactChangeOnly = false
         }
+    }
+    
+    /// Method to update the coin return text
+    func updateCoinReturnText() {
+        self.coinReturnDisplay.text = "CoinReturn\n\n\(self.coinReturn.quarters)x Quarters\n" +
+            "\(self.coinReturn.dimes)x Dimes\n" +
+            "\(self.coinReturn.nickels)x Nickels\n" +
+            "\(self.coinReturn.pennies)x Pennies"
+    }
+    
+    /// Method to update the diagnostics text
+    func updateDiagnosticsText() {
+        self.diagnosticsDisplay.text = "Diagnostics\n\n\(self.coinsInMachine.quarters)x Quarters\n" +
+            "\(self.coinsInMachine.dimes)x Dimes\n" +
+            "\(self.coinsInMachine.nickels)x Nickels\n" +
+            "\(self.coinsInMachine.pennies)x Pennies\n\n" +
+            "\(self.stateExactChangeOnly) - ExactChangeOnly"
     }
     
     // MARK: - Display Adjustments

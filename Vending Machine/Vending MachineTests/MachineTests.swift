@@ -122,7 +122,7 @@ class MachineTests: XCTestCase {
             machine.insertMoney(type: Coins.CoinTypes.quarter)
         }
 
-        machine.makeChange(product: cola)
+        machine.makeChangeFrom(product: cola)
         let emptyCoinReturn = Machine.MoneyCollection(quarters: 0, dimes: 0, nickels: 0, pennies: 0)
         XCTAssert(machine.moneyInCoinReturn().total() == emptyCoinReturn.total(),
                   "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
@@ -137,7 +137,7 @@ class MachineTests: XCTestCase {
             machine.insertMoney(type: Coins.CoinTypes.quarter)
         }
 
-        machine.makeChange(product: cola)
+        machine.makeChangeFrom(product: cola)
         let correctCoinReturn = Machine.MoneyCollection(quarters: 4, dimes: 0, nickels: 0, pennies: 0)
 
         XCTAssert(machine.moneyInCoinReturn().pennies == 0)
@@ -164,7 +164,7 @@ class MachineTests: XCTestCase {
             machine.insertMoney(type: Coins.CoinTypes.dime)
         }
         
-        machine.makeChange(product: cola)
+        machine.makeChangeFrom(product: cola)
         let correctCoinReturn = Machine.MoneyCollection(quarters: 0, dimes: 2, nickels: 0, pennies: 0)
         
         XCTAssert(machine.moneyInCoinReturn().quarters == 0)
@@ -191,7 +191,7 @@ class MachineTests: XCTestCase {
             machine.insertMoney(type: Coins.CoinTypes.nickel)
         }
 
-        machine.makeChange(product: cola)
+        machine.makeChangeFrom(product: cola)
         let correctCoinReturn = Machine.MoneyCollection(quarters: 0, dimes: 0, nickels: 1, pennies: 0)
         
         XCTAssert(machine.moneyInCoinReturn().quarters == 0)
@@ -219,7 +219,7 @@ class MachineTests: XCTestCase {
         machine.insertMoney(type: Coins.CoinTypes.dime)
         machine.insertMoney(type: Coins.CoinTypes.nickel)
         
-        machine.makeChange(product: cola)
+        machine.makeChangeFrom(product: cola)
         let correctCoinReturn = Machine.MoneyCollection(quarters: 2, dimes: 1, nickels: 1, pennies: 1)
         
         XCTAssert(machine.moneyInCoinReturn().quarters == 2)
