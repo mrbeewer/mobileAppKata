@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +14,198 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Vending_Machine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vending Machine" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hly-8X-T3l">
+                                <rect key="frame" x="10" y="40" width="355" height="87"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eEz-IM-icy" userLabel="Products">
+                                <rect key="frame" x="46" y="147" width="283" height="100"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9N-C8-UKt" userLabel="cola">
+                                        <rect key="frame" x="0.0" y="0.0" width="89" height="100"/>
+                                        <state key="normal" backgroundImage="Cola">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colaTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IBE-Ei-9Su"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TCd-oH-ZrE" userLabel="chips">
+                                        <rect key="frame" x="97" y="0.0" width="89" height="100"/>
+                                        <state key="normal" title="Chips" image="Chips"/>
+                                        <connections>
+                                            <action selector="chipsTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tPW-09-E9H"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pni-Gd-AhO" userLabel="candy">
+                                        <rect key="frame" x="194" y="0.0" width="89" height="100"/>
+                                        <state key="normal" title="Candy" image="Candy"/>
+                                        <connections>
+                                            <action selector="candyTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kEt-uM-fFO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="hDn-ac-bnY"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DisplayText" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tR-xr-F3e">
+                                <rect key="frame" x="20" y="267" width="335" height="60"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="EWI-oP-mjv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rkj-oN-Yb2" userLabel="Coins">
+                                <rect key="frame" x="46" y="347" width="289" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovI-hx-c2b" userLabel="quarter">
+                                        <rect key="frame" x="0.0" y="0.0" width="66.5" height="60"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Quarter">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="quarterTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XQz-K1-uTE"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4zW-z0-DDa" userLabel="dime">
+                                        <rect key="frame" x="74.5" y="0.0" width="66" height="60"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Dime">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="dimeTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RYy-O6-Mnf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCS-PA-62g" userLabel="nickel">
+                                        <rect key="frame" x="148.5" y="0.0" width="66.5" height="60"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Nickel">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="nickelTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R5r-qK-quS"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OWN-MC-H3B" userLabel="penny">
+                                        <rect key="frame" x="223" y="0.0" width="66" height="60"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Penny">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pennyTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ryN-nD-sdw"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="kH9-4y-MaD"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="Hqb-3a-uaD"/>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="OlW-CH-XcZ" userLabel="Output">
+                                <rect key="frame" x="60" y="427" width="255" height="130"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="CoinReturn" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="CaY-bp-Nxv" userLabel="CoinReturn">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.5" height="130"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Diagnostics" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cwx-mG-Ijt" userLabel="Diagnostics">
+                                        <rect key="frame" x="127.5" y="0.0" width="127.5" height="130"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="130" id="1cj-mV-h3l"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zlR-ac-haj" userLabel="GetCoins">
+                                <rect key="frame" x="46" y="577" width="283" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N5h-u0-vl6">
+                                        <rect key="frame" x="0.0" y="0.0" width="137.5" height="60"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Collect Coins">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="collectCoinsFromReturnTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VsD-dg-12m"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AMd-ie-NmB">
+                                        <rect key="frame" x="145.5" y="0.0" width="137.5" height="60"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Return Coins">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="collectCoinsFromReturnTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c1i-eA-RlM"/>
+                                            <action selector="returnCoinsTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f0y-6d-G8g"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="hmV-Fl-30T"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hly-8X-T3l" secondAttribute="trailing" constant="10" id="1ST-Jv-fnm"/>
+                            <constraint firstItem="eEz-IM-icy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="9wQ-je-mOy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eEz-IM-icy" secondAttribute="trailing" constant="30" id="AjQ-sQ-vD8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="zlR-ac-haj" secondAttribute="trailing" constant="30" id="E0T-Cm-G80"/>
+                            <constraint firstItem="zlR-ac-haj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="I1j-Zx-xlu"/>
+                            <constraint firstItem="8tR-xr-F3e" firstAttribute="top" secondItem="eEz-IM-icy" secondAttribute="bottom" constant="20" id="IIa-5d-hnY"/>
+                            <constraint firstAttribute="trailing" secondItem="OlW-CH-XcZ" secondAttribute="trailing" constant="60" id="Ogd-KJ-TnA"/>
+                            <constraint firstItem="rkj-oN-Yb2" firstAttribute="top" secondItem="8tR-xr-F3e" secondAttribute="bottom" constant="20" id="Pyx-Z5-JwK"/>
+                            <constraint firstItem="OlW-CH-XcZ" firstAttribute="top" secondItem="rkj-oN-Yb2" secondAttribute="bottom" constant="20" id="Y4A-eh-DJB"/>
+                            <constraint firstItem="Hly-8X-T3l" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="Yx9-Nz-kNO"/>
+                            <constraint firstItem="zlR-ac-haj" firstAttribute="top" secondItem="OlW-CH-XcZ" secondAttribute="bottom" constant="20" id="Z1P-Pr-ipX"/>
+                            <constraint firstItem="Hly-8X-T3l" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="grg-Rs-ofH"/>
+                            <constraint firstItem="eEz-IM-icy" firstAttribute="top" secondItem="Hly-8X-T3l" secondAttribute="bottom" constant="20" id="mlf-MA-uKa"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="zlR-ac-haj" secondAttribute="bottom" constant="30" id="o2T-Bl-MeE"/>
+                            <constraint firstItem="8tR-xr-F3e" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="p0j-kk-dA1"/>
+                            <constraint firstItem="OlW-CH-XcZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="60" id="rky-Xu-yo8"/>
+                            <constraint firstItem="Hly-8X-T3l" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="20" id="y4D-1l-e7W"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8tR-xr-F3e" secondAttribute="trailing" constant="20" id="yDj-e7-PhT"/>
+                            <constraint firstAttribute="trailing" secondItem="rkj-oN-Yb2" secondAttribute="trailing" constant="40" id="zZK-Lh-kcU"/>
+                            <constraint firstItem="rkj-oN-Yb2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="46" id="zqu-Ca-9Qw"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="coinReturnText" destination="CaY-bp-Nxv" id="Cph-KM-3gm"/>
+                        <outlet property="diagnosticsText" destination="cwx-mG-Ijt" id="SmM-Bi-LPe"/>
+                        <outlet property="displayLabel" destination="8tR-xr-F3e" id="Fx1-dr-f8R"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="36" y="32.833583208395808"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Candy" width="640" height="354"/>
+        <image name="Chips" width="640" height="426"/>
+        <image name="Cola" width="394" height="640"/>
+    </resources>
 </document>
