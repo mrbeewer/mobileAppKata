@@ -25,6 +25,8 @@ class Machine {
 
     private var display: UILabel
     private var displayTimer: Timer!
+    
+    var stateExactChangeOnly: Bool = false
 
     // MARK: - Methods
 
@@ -32,6 +34,8 @@ class Machine {
         print("Status: Initialize Machine")
         self.coinsInserted = 0.0
         self.coinsInMachine = coinsInMachine
+
+        self.stateExactChangeOnly = coinsInMachine.total() >= 1.0 ? true : false
 
         self.coinReturn = MoneyCollection(quarters: 0, dimes: 0, nickels: 0, pennies: 0)
 
@@ -168,6 +172,15 @@ class Machine {
         return false
     }
     
+    /// Method to check for 'Exact Change Only' state
+    func canMakeChange() {
+        if self.getCoinsInMachineTotal() >= 1.0 {
+            self.stateExactChangeOnly = false
+        } else {
+            self.stateExactChangeOnly = false
+        }
+    }
+    
     // MARK: - Display Adjustments
     /// Sets the display to the default text - "INSERT COIN"
     @objc func displayDefault() {
@@ -194,6 +207,27 @@ class Machine {
                                                      userInfo: nil,
                                                      repeats: false)
         }
+    }
+    
+    /// Sets the display to the default text - "INSERT COIN"
+    func displayExactChangeOnly() {
+        self.display.text = "EXACT CHANGE ONLY"
+        
+//        if self.coinsInserted > 0 {
+//            // put the display back to default after 3 seconds
+//            self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
+//                                                     target: self,
+//                                                     selector: #selector(displayMoneyInserted),
+//                                                     userInfo: nil,
+//                                                     repeats: false)
+//        } else {
+//            // put the display back to default after 3 seconds
+//            self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
+//                                                     target: self,
+//                                                     selector: #selector(displayDefault),
+//                                                     userInfo: nil,
+//                                                     repeats: false)
+//        }
     }
 
     /// Sets the display to the done state - "THANK YOU"
