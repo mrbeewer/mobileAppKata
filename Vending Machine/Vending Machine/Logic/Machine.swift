@@ -43,6 +43,15 @@ class Machine {
     }
 
     // MARK: - Getters
+    /// Gets the total money that has been inserted
+    func getCoinsInsertedTotal() -> Double {
+        return self.coinsInserted
+    }
+    
+    /// Gets the toal money in the machine (internal money)
+    func getCoinsInMachineTotal() -> Double {
+        return self.coinsInMachine.total()
+    }
     
     /// Gets the money in the coin return as a MoneyCollection type.
     func moneyInCoinReturn() -> MoneyCollection {

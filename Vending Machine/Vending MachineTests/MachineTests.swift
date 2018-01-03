@@ -44,7 +44,7 @@ class MachineTests: XCTestCase {
      * Check: totalMoneyIn = 4.0
      */
     func testMachineMoneyAvailableTotal() {
-        XCTAssert(machine.totalMoneyIn() == totalMoney,
+        XCTAssert(machine.getCoinsInMachineTotal() == totalMoney,
                   "Total value of money in machine does not equal \(totalMoney)")
 
         // display should still be 'INSERT COINS'
@@ -65,7 +65,7 @@ class MachineTests: XCTestCase {
 
         machine.insertMoney(type: Coins.CoinTypes.quarter)
         totalInserted += Coins.CoinTypes.quarter.rawValue
-        totalInsertedInMachine = machine.totalMoneyInsertedIn()
+        totalInsertedInMachine = machine.getCoinsInsertedTotal()
         XCTAssert(totalInsertedInMachine == totalInserted,
                   "Inserted a quarter, total (\(totalInsertedInMachine)) should be \(totalInserted).")
         XCTAssert(display.text! == "Inserted: $0.25", "Display text is \(display.text!)," +
@@ -73,7 +73,7 @@ class MachineTests: XCTestCase {
 
         machine.insertMoney(type: Coins.CoinTypes.dime)
         totalInserted += Coins.CoinTypes.dime.rawValue
-        totalInsertedInMachine = machine.totalMoneyInsertedIn()
+        totalInsertedInMachine = machine.getCoinsInsertedTotal()
         XCTAssert(totalInsertedInMachine == totalInserted,
                   "Inserted a dime, total (\(totalInsertedInMachine)) should be \(totalInserted).")
         XCTAssert(display.text! == "Inserted: $0.35", "Display text is \(display.text!)," +
@@ -81,7 +81,7 @@ class MachineTests: XCTestCase {
 
         machine.insertMoney(type: Coins.CoinTypes.nickel)
         totalInserted += Coins.CoinTypes.nickel.rawValue
-        totalInsertedInMachine = machine.totalMoneyInsertedIn()
+        totalInsertedInMachine = machine.getCoinsInsertedTotal()
         XCTAssert(totalInsertedInMachine == totalInserted,
                   "Inserted a nickel, total (\(totalInsertedInMachine)) should be \(totalInserted).")
         XCTAssert(display.text! == "Inserted: $0.40", "Display text is \(display.text!)," +
@@ -89,7 +89,7 @@ class MachineTests: XCTestCase {
 
         machine.insertMoney(type: Coins.CoinTypes.penny)
         // totalInserted should not change, we are returning pennies
-        totalInsertedInMachine = machine.totalMoneyInsertedIn()
+        totalInsertedInMachine = machine.getCoinsInsertedTotal()
         XCTAssert(totalInsertedInMachine == totalInserted,
                   "Inserted a penny, total (\(totalInsertedInMachine)) should be \(totalInserted).")
         XCTAssert(display.text! == "Inserted: $0.40", "Display text is \(display.text!)," +
@@ -118,7 +118,7 @@ class MachineTests: XCTestCase {
         machine.makeChange(product: cola)
         let emptyCoinReturn = Machine.MoneyCollection(quarters: 0, dimes: 0, nickels: 0, pennies: 0)
         XCTAssert(machine.moneyInCoinReturn().total() == emptyCoinReturn.total(),
-                  "Inserted \(machine.totalMoneyInsertedIn()) and purchased cola for " +
+                  "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
                   "\(cola.getPrice()). CoinReturn should be empty.")
     }
     
@@ -141,7 +141,7 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.moneyInCoinReturn().nickels == 0)
 
         XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
-                  "Inserted \(machine.totalMoneyInsertedIn()) and purchased cola for " +
+                  "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
                   "\(cola.getPrice()). CoinReturn should be $1.00.")
     }
     
@@ -167,7 +167,7 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.moneyInCoinReturn().pennies == 0)
         
         XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
-                  "Inserted \(machine.totalMoneyInsertedIn()) and purchased cola for " +
+                  "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
             "\(cola.getPrice()). CoinReturn should be $0.20.")
     }
     
@@ -193,7 +193,7 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.moneyInCoinReturn().pennies == 0)
         
         XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
-                  "Inserted \(machine.totalMoneyInsertedIn()) and purchased cola for " +
+                  "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
             "\(cola.getPrice()). CoinReturn should be $0.05.")
     }
     
@@ -220,7 +220,7 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.moneyInCoinReturn().pennies == 1)
         
         XCTAssert(machine.moneyInCoinReturn().total() == correctCoinReturn.total(),
-                  "Inserted \(machine.totalMoneyInsertedIn()) and purchased cola for " +
+                  "Inserted \(machine.getCoinsInsertedTotal()) and purchased cola for " +
             "\(cola.getPrice()). CoinReturn should be $0.66.")
     }
 }
