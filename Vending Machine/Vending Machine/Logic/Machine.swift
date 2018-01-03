@@ -137,12 +137,32 @@ class Machine {
      - product: The product being purchased.
      */
     func purchase(product: Products) -> Bool {
-        if self.coinsInserted - product.getPrice() >= 0 {
-            makeChange(product: product)
-            displayDone()
+        if inStock(product: product) {
+            if self.coinsInserted - product.getPrice() >= 0 {
+                makeChange(product: product)
+                displayDone()
+                return true
+            } else if self.coinsInserted - product.getPrice() < 0 {
+                displayPriceOfProduct(product: product)
+            }
+            
+            return false
+        } else {
+            displaySoldOut()
+            return false
+        }
+    }
+    
+    // MARK: - System State
+    /**
+     Method to check stock of product
+     
+     - Parameters:
+     - product: The product being purchased.
+     */
+    func inStock(product: Products) -> Bool {
+        if product.getInventory() >= 1 {
             return true
-        } else if self.coinsInserted - product.getPrice() < 0 {
-            displayPriceOfProduct(product: product)
         }
         
         return false
@@ -153,6 +173,27 @@ class Machine {
     @objc func displayDefault() {
         self.display.text = "INSERT COINS"
         self.coinsInserted = 0.0
+    }
+    
+    /// Sets the display to the default text - "INSERT COIN"
+    func displaySoldOut() {
+        self.display.text = "SOLD OUT"
+        
+        if self.coinsInserted > 0 {
+            // put the display back to default after 3 seconds
+            self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
+                                                     target: self,
+                                                     selector: #selector(displayMoneyInserted),
+                                                     userInfo: nil,
+                                                     repeats: false)
+        } else {
+            // put the display back to default after 3 seconds
+            self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
+                                                     target: self,
+                                                     selector: #selector(displayDefault),
+                                                     userInfo: nil,
+                                                     repeats: false)
+        }
     }
 
     /// Sets the display to the done state - "THANK YOU"
@@ -168,7 +209,7 @@ class Machine {
     }
 
     /// Sets the display to show the money inserted - "INSERTED: $#.##"
-    func displayMoneyInserted() {
+    @objc func displayMoneyInserted() {
         self.display.text = String(format: "INSERTED: $%.02f", self.coinsInserted)
     }
     
