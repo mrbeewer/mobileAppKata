@@ -65,8 +65,27 @@ class Products {
      - Parameters:
      - price: New price of item
      */
-    func updatePrice(with price:Double) {
+    func updatePrice(price:Double) {
         self.price = price
+    }
+    
+    
+    /**
+     Decrease inventory count by 1.
+     */
+    func available() -> Bool {
+        if(self.inventory >= 1) {
+            return true
+        }
+        
+        return false
+    }
+    
+    /**
+     Decrease inventory count by 1.
+     */
+    func itemSold() {
+        self.inventory -= 1
     }
     
     /**
