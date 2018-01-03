@@ -343,4 +343,21 @@ class MachineTests: XCTestCase {
         XCTAssert(machine.getCoinsInsertedTotal() == 0.0,
                   "All money should be returned, so CoinsInsertedTotal should be 0")
     }
+    
+    /* Test in stock status
+     * Check: cola has inventory of 10, should be in stock
+     */
+    func testMachineInStockStatus() {
+        let inStock = machine.inStock(product: cola)
+        XCTAssert(inStock, "Machine should have cola in stock")
+    }
+    
+    /* Test not in stock status
+     * Check: create new product with no inventory, should not be in stock
+     */
+    func testMachineNotInStockStatus() {
+        let mtDew = Products(type: Products.VendingItemType.cola, price: 1.0, inventory: 0)
+        let inStock = machine.inStock(product: mtDew)
+        XCTAssert(!inStock, "Machine should not have MtDew in stock")
+    }
 }
