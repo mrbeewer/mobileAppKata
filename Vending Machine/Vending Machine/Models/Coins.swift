@@ -9,12 +9,12 @@
 import Foundation
 
 class Coins {
-    
+
     /// Available coin options.
     enum CoinTypes {
-        case Quarter
-        case Nickel
-        case Dime
-        case Penny
+        case quarter
+        case nickel
+        case dime
+        case penny
     }
 }
