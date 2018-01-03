@@ -21,6 +21,7 @@
 		8F4AA18F1FFC700400DE67D4 /* Coins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4AA18E1FFC700400DE67D4 /* Coins.swift */; };
 		8F4AA1921FFC70D300DE67D4 /* Coins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4AA18E1FFC700400DE67D4 /* Coins.swift */; };
 		8F4AA1941FFC71E700DE67D4 /* ProductsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4AA1931FFC71E700DE67D4 /* ProductsTests.swift */; };
+		8F4AA1971FFC7B8200DE67D4 /* MachineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4AA1961FFC7B8200DE67D4 /* MachineTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		8F4AA18B1FFC62A300DE67D4 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		8F4AA18E1FFC700400DE67D4 /* Coins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coins.swift; sourceTree = "<group>"; };
 		8F4AA1931FFC71E700DE67D4 /* ProductsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTests.swift; sourceTree = "<group>"; };
+		8F4AA1961FFC7B8200DE67D4 /* MachineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			children = (
 				8F4AA16C1FFC2AFA00DE67D4 /* VendingMachineTests.swift */,
 				8F4AA1931FFC71E700DE67D4 /* ProductsTests.swift */,
+				8F4AA1961FFC7B8200DE67D4 /* MachineTests.swift */,
 				8F4AA16E1FFC2AFA00DE67D4 /* Info.plist */,
 			);
 			path = "Vending MachineTests";
@@ -328,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F4AA18D1FFC63D700DE67D4 /* Products.swift in Sources */,
+				8F4AA1971FFC7B8200DE67D4 /* MachineTests.swift in Sources */,
 				8F4AA16D1FFC2AFA00DE67D4 /* VendingMachineTests.swift in Sources */,
 				8F4AA1921FFC70D300DE67D4 /* Coins.swift in Sources */,
 				8F4AA1941FFC71E700DE67D4 /* ProductsTests.swift in Sources */,

@@ -27,7 +27,7 @@ class ProductsTests: XCTestCase {
         let price = 1.0
         let inventory = 10
 
-        product = Products(type: Products.VendingItemType.Cola, price: price, inventory: inventory)
+        product = Products(type: Products.VendingItemType.cola, price: price, inventory: inventory)
 
         XCTAssert(product.getPrice() == price, "testCola - price was not set to \(price)")
         XCTAssert(product.getInventory() == inventory, "testCola - inventory was not set to \(inventory)")
@@ -38,7 +38,7 @@ class ProductsTests: XCTestCase {
         let price = 1.0
         let inventory = 10
 
-        product = Products(type: Products.VendingItemType.Cola, price: price, inventory: inventory)
+        product = Products(type: Products.VendingItemType.cola, price: price, inventory: inventory)
 
         let newInventory = 5
         product.updateInventory(count: newInventory)
@@ -54,7 +54,7 @@ class ProductsTests: XCTestCase {
         let price = 1.0
         let inventory = 10
 
-        product = Products(type: Products.VendingItemType.Cola, price: price, inventory: inventory)
+        product = Products(type: Products.VendingItemType.cola, price: price, inventory: inventory)
 
         product.itemSold()
         XCTAssert(product.getInventory() == (inventory - 1), "testCola - inventory was not decreased by 1")
@@ -65,7 +65,7 @@ class ProductsTests: XCTestCase {
         let price = 1.0
         let inventory = 10
 
-        product = Products(type: Products.VendingItemType.Cola, price: price, inventory: inventory)
+        product = Products(type: Products.VendingItemType.cola, price: price, inventory: inventory)
 
         XCTAssert(product.available(), "ProductTest - Item availability should be true")
 
