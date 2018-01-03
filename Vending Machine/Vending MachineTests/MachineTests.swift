@@ -360,4 +360,25 @@ class MachineTests: XCTestCase {
         let inStock = machine.inStock(product: mtDew)
         XCTAssert(!inStock, "Machine should not have MtDew in stock")
     }
+    
+    /* Test if machine can make change
+     * Check: machine has $4.00 of change, should be able to make change
+     */
+    func testMachineCanMakeChange() {
+        XCTAssert(machine.stateExactChangeOnly, "Machine should be able to make change")
+    }
+    
+    /* Test if machine can not make change
+     * Check: machine has $0.50 of change, should be NOT able to make change
+     */
+    func testMachineCanNotMakeChange() {
+        let coinsInMachine: Machine.MoneyCollection = Machine.MoneyCollection(quarters: 2,
+                                                                              dimes: 0,
+                                                                              nickels: 0,
+                                                                              pennies: 0)
+
+        machine = Machine(coinsInMachine: coinsInMachine, display: display)
+        XCTAssert(!machine.stateExactChangeOnly, "Machine should not be able to make change")
+    }
+
 }
