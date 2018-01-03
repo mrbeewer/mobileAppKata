@@ -24,6 +24,7 @@ class Machine {
     private var coinReturn: MoneyCollection
 
     private var display: UILabel
+    private var displayTimer: Timer!
 
     // MARK: - Methods
 
@@ -104,39 +105,83 @@ class Machine {
      */
     func makeChange(product: Products) {
         var change = self.coinsInserted - product.getPrice()
+        change = Double(round(100*change)/100)
 
         if change > 0 {
             let numQuarters = Int(floor(change / Coins.CoinTypes.quarter.rawValue))
             sendToCoinReturn(type: Coins.CoinTypes.quarter, multiple: numQuarters)
             
             change -= 0.25 * Double(numQuarters)
+            change = Double(round(100*change)/100)
             let numDime = Int(floor(change / Coins.CoinTypes.dime.rawValue))
             sendToCoinReturn(type: Coins.CoinTypes.dime, multiple: numDime)
             
             change -= 0.10 * Double(numDime)
+            change = Double(round(100*change)/100)
             let numNickel = Int(floor(change / Coins.CoinTypes.nickel.rawValue))
             sendToCoinReturn(type: Coins.CoinTypes.nickel, multiple: numNickel)
-            
+
             // pennies are rejected when inserted
             
             displayDefault()
         }
+        
+        self.coinsInserted = 0.0
     }
-
+    
+    // MARK: - Product
+    /**
+     Method to allow the user to purchase a product, if enough money is available.
+     
+     - Parameters:
+     - product: The product being purchased.
+     */
+    func purchase(product: Products) -> Bool {
+        if self.coinsInserted - product.getPrice() >= 0 {
+            makeChange(product: product)
+            displayDone()
+            return true
+        } else if self.coinsInserted - product.getPrice() < 0 {
+            displayPriceOfProduct(product: product)
+        }
+        
+        return false
+    }
+    
     // MARK: - Display Adjustments
     /// Sets the display to the default text - "INSERT COIN"
-    func displayDefault() {
+    @objc func displayDefault() {
         self.display.text = "INSERT COINS"
+        self.coinsInserted = 0.0
     }
 
     /// Sets the display to the done state - "THANK YOU"
     func displayDone() {
         self.display.text = "THANK YOU"
+        
+        // put the display back to default after 3 seconds
+        self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
+                                                 target: self,
+                                                 selector: #selector(displayDefault),
+                                                 userInfo: nil,
+                                                 repeats: false)
     }
 
-    /// Sets the display to show the money inserted - "Inserted: $#.##"
+    /// Sets the display to show the money inserted - "INSERTED: $#.##"
     func displayMoneyInserted() {
-        self.display.text = String(format: "Inserted: $%.02f", self.coinsInserted)
+        self.display.text = String(format: "INSERTED: $%.02f", self.coinsInserted)
+    }
+    
+    /// Sets the display to show the price of the selected product - "PRICE: $#.##"
+    func displayPriceOfProduct(product: Products) {
+        self.display.text = String(format: "PRICE: $%.02f", product.getPrice())
+        
+        // put the display back to default after 3 seconds
+        self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
+                                                 target: self,
+                                                 selector: #selector(displayDefault),
+                                                 userInfo: nil,
+                                                 repeats: false)
     }
 
     /// Struct to hold the quantities of the coin options
