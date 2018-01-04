@@ -11,13 +11,13 @@ import Foundation
 class Products {
 
     // MARK: - Variables
+    
     private var price: Double = 0.0
-
     private var inventory: Int = 0
-
     private var type: VendingItemType
 
     // MARK: - Init
+    
     /**
      Initializes the product with a provided type, price, and inventory.
      
@@ -33,21 +33,19 @@ class Products {
     }
 
     // MARK: - Getters
-    /**
-     Returns the current inventory of the item.
-     */
+
+    /// Returns the current inventory of the item.
     func getInventory() -> Int {
         return self.inventory
     }
 
-    /**
-     Returns the current price of the item.
-     */
+    /// Returns the current price of the item.
     func getPrice() -> Double {
         return self.price
     }
 
     // MARK: Setters
+    
     /**
      Updates the current inventory of the item.
      
@@ -69,9 +67,8 @@ class Products {
     }
 
     // MARK: State Changers
-    /**
-     Decrease inventory count by 1.
-     */
+    
+    /// Decrease inventory count by 1.
     func available() -> Bool {
         if self.inventory >= 1 {
             return true
@@ -80,22 +77,17 @@ class Products {
         return false
     }
 
-    /**
-     Decrease inventory count by 1.
-     */
+    /// Decrease inventory count by 1.
     func itemSold() {
         self.inventory -= 1
     }
 
     // MARK: - Enum Types
-    /**
-     Available item types for the vending machine.
-     */
+    
+    /// Available item types for the vending machine.
     enum VendingItemType {
         case cola
-
         case chips
-
         case candy
     }
 }

@@ -11,10 +11,10 @@ import Foundation
 class Coins {
 
     /// Available coin options.
-    enum CoinTypes {
-        case quarter
-        case nickel
-        case dime
-        case penny
+    enum CoinTypes: Double {
+        case quarter = 0.25
+        case dime = 0.10
+        case nickel = 0.05
+        case penny = 0.01
     }
 }
