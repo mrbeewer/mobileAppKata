@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import VendingMachine
 
 class MachineTests: XCTestCase {
 
@@ -18,6 +19,8 @@ class MachineTests: XCTestCase {
     var candy: Products!
 
     var display: UILabel = UILabel()
+    var diagnosticsDisplay: UITextView = UITextView()
+    var coinReturnDisplay: UITextView = UITextView()
 
     override func setUp() {
         super.setUp()
@@ -30,6 +33,9 @@ class MachineTests: XCTestCase {
         totalMoney = 0.25 * 10.0 + 0.10 * 10.0 + 0.05 * 10.0 + 0.01 * 0.0
 
         machine = Machine(coinsInMachine: coinsInMachine, display: display)
+        
+        machine.diagnosticsDisplay = diagnosticsDisplay
+        machine.coinReturnDisplay = coinReturnDisplay
         
         // create products
         cola = Products(type: Products.VendingItemType.cola, price: 1.0, inventory: 10)
@@ -235,6 +241,29 @@ class MachineTests: XCTestCase {
         XCTAssert(display.text! == "INSERT COINS", "Display text should read 'INSERT COINS'.")
     }
     
+    /* Test that machine empties the coin return
+     * Check: insert 2.0 and emptyCoinReturn -> coinReturn == 0
+     */
+    func testMachineEmptyCoinReturn() {
+        for _ in 1...8 {
+            machine.insertMoney(type: Coins.CoinTypes.quarter)
+        }
+        machine.makeChangeFrom(product: cola)
+        machine.emptyCoinReturn()
+        XCTAssert(machine.moneyInCoinReturn().total() == 0,"Empty coin return should result in 0")
+    }
+    
+    /* Test that machine returns coins
+     * Check: insert 2.0 and returnCoins -> coinReturn == 4 quarters
+     */
+    func testMachineReturnCoins() {
+        for _ in 1...8 {
+            machine.insertMoney(type: Coins.CoinTypes.quarter)
+        }
+        machine.returnCoins()
+        XCTAssert(machine.moneyInCoinReturn().total() == 2.0,"Empty coin return should result in 2.0")
+    }
+    
     /* Test purchasing an item with insufficient money inserted
      * Check: insert $0.50, buy a cola -> no cola
      */
@@ -365,7 +394,7 @@ class MachineTests: XCTestCase {
      * Check: machine has $4.00 of change, should be able to make change
      */
     func testMachineCanMakeChange() {
-        XCTAssert(machine.stateExactChangeOnly, "Machine should be able to make change")
+        XCTAssert(!machine.stateExactChangeOnly, "Machine should be able to make change")
     }
     
     /* Test if machine can not make change
@@ -378,7 +407,24 @@ class MachineTests: XCTestCase {
                                                                               pennies: 0)
 
         machine = Machine(coinsInMachine: coinsInMachine, display: display)
-        XCTAssert(!machine.stateExactChangeOnly, "Machine should not be able to make change")
+        XCTAssert(machine.stateExactChangeOnly, "Machine should not be able to make change")
+        XCTAssert(self.display.text == "EXACT CHANGE ONLY", "Display should show 'EXACT CHANGE ONLY'")
+    }
+    
+    /* Test if display Sold Out sets displayView
+     * Check: display.text == "SOLD OUT"
+     */
+    func testMachineDisplaySoldOut() {
+        machine.displaySoldOut()
+        XCTAssert(self.display.text == "SOLD OUT", "Display should show 'SOLD OUT'")
+    }
+    
+    /* Test if display Exact Change Only sets displayView
+     * Check: display.text == "EXACT CHANGE ONLY"
+     */
+    func testMachineDisplayExactChangeOnly() {
+        machine.displayExactChangeOnly()
+        XCTAssert(self.display.text == "EXACT CHANGE ONLY", "Display should show 'EXACT CHANGE ONLY'")
     }
 
 }
