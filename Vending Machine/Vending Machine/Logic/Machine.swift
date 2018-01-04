@@ -14,11 +14,6 @@ class Machine {
 
     // MARK: - Variables
 
-    // current state of the system
-    // current amount of money in the system (reserves)
-    // inventory
-    // current amount of money inserted into the system
-    //
     private var coinsInserted: Double = 0.0
     private var coinsInMachine: MoneyCollection
     private var coinReturn: MoneyCollection
@@ -55,6 +50,7 @@ class Machine {
     }
 
     // MARK: - Getters
+    
     /// Gets the total money that has been inserted
     func getCoinsInsertedTotal() -> Double {
         return self.coinsInserted
@@ -71,6 +67,7 @@ class Machine {
     }
 
     // MARK: - Money Adjustments
+    
     /**
      Method called when the user inserts money. Will validate and increment the inserted total.
      
@@ -78,9 +75,9 @@ class Machine {
      - type: The type of coin that was inserted.
      */
     func insertMoney(type: Coins.CoinTypes) {
-//        if self.displayTimer != nil {
-//            self.displayTimer.invalidate()
-//        }
+        if self.displayTimer != nil {
+            self.displayTimer.invalidate()
+        }
         
         switch type {
         case .penny:
@@ -252,6 +249,7 @@ class Machine {
     }
     
     // MARK: - Product
+    
     /**
      Method to allow the user to purchase a product, if enough money is available.
      
@@ -280,6 +278,7 @@ class Machine {
     }
     
     // MARK: - System State
+    
     /**
      Method to check stock of product
      
@@ -329,6 +328,7 @@ class Machine {
     }
     
     // MARK: - Display Adjustments
+    
     /// Sets the display to the default text - "INSERT COIN"
     @objc func displayDefault() {
         self.display.text = "INSERT COINS"

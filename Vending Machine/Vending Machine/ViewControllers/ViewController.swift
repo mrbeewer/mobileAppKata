@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     // MARK: - Button Interaction
     
     @IBAction func colaTouchUp(_ sender: Any) {
-        var success = vmachine.purchase(product: cola)
+        vmachine.purchase(product: cola)
     }
     @IBAction func chipsTouchUp(_ sender: Any) {
         vmachine.purchase(product: chips)

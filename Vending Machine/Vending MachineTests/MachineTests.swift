@@ -250,7 +250,7 @@ class MachineTests: XCTestCase {
         }
         machine.makeChangeFrom(product: cola)
         machine.emptyCoinReturn()
-        XCTAssert(machine.moneyInCoinReturn().total() == 0,"Empty coin return should result in 0")
+        XCTAssert(machine.moneyInCoinReturn().total() == 0, "Empty coin return should result in 0")
     }
     
     /* Test that machine returns coins
@@ -261,7 +261,7 @@ class MachineTests: XCTestCase {
             machine.insertMoney(type: Coins.CoinTypes.quarter)
         }
         machine.returnCoins()
-        XCTAssert(machine.moneyInCoinReturn().total() == 2.0,"Empty coin return should result in 2.0")
+        XCTAssert(machine.moneyInCoinReturn().total() == 2.0, "Empty coin return should result in 2.0")
     }
     
     /* Test purchasing an item with insufficient money inserted
