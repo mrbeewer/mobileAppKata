@@ -78,9 +78,9 @@ class Machine {
      - type: The type of coin that was inserted.
      */
     func insertMoney(type: Coins.CoinTypes) {
-        if self.displayTimer != nil {
-            self.displayTimer.invalidate()
-        }
+//        if self.displayTimer != nil {
+//            self.displayTimer.invalidate()
+//        }
         
         switch type {
         case .penny:
