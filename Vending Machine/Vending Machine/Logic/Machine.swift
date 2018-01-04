@@ -22,11 +22,11 @@ class Machine {
     private var coinsInserted: Double = 0.0
     private var coinsInMachine: MoneyCollection
     private var coinReturn: MoneyCollection
-
+    private var displayTimer: Timer!
     private var display: UILabel
     var coinReturnDisplay: UITextView
     var diagnosticsDisplay: UITextView
-    private var displayTimer: Timer!
+    var productArray: [Products]
     
     var stateExactChangeOnly: Bool = false
 
@@ -36,16 +36,18 @@ class Machine {
         print("Status: Initialize Machine")
         self.coinsInserted = 0.0
         self.coinsInMachine = coinsInMachine
-
-        self.stateExactChangeOnly = coinsInMachine.total() >= 1.0 ? true : false
-
-        self.coinReturn = MoneyCollection(quarters: 0, dimes: 0, nickels: 0, pennies: 0)
-        
+        self.stateExactChangeOnly = coinsInMachine.total() >= 1.0 ? false : true
+        self.coinReturn = MoneyCollection()
         self.coinReturnDisplay = UITextView()
         self.diagnosticsDisplay = UITextView()
-
+        self.productArray = []
         self.display = display
-        self.display.text = "INSERT COINS"
+        
+        if self.stateExactChangeOnly {
+            self.display.text = "EXACT CHANGE ONLY"
+        } else {
+            self.display.text = "INSERT COINS"
+        }
     }
 
     deinit {
@@ -76,14 +78,69 @@ class Machine {
      - type: The type of coin that was inserted.
      */
     func insertMoney(type: Coins.CoinTypes) {
+        if self.displayTimer != nil {
+            self.displayTimer.invalidate()
+        }
+        
         switch type {
         case .penny:
             sendToCoinReturn(type: type)
         default:
+            addToInternalCoinStore(type: type)
             self.coinsInserted += type.rawValue
+            displayMoneyInserted()
         }
-
-        displayMoneyInserted()
+        
+        updateDiagnosticsText()
+    }
+    
+    /**
+     Method to add to the internal coin store.
+     
+     - Parameters:
+     - type: The type of coin being received.
+     */
+    func addToInternalCoinStore(type: Coins.CoinTypes) {
+        if self.displayTimer != nil {
+            self.displayTimer.invalidate()
+        }
+        
+        switch type {
+        case .quarter:
+            self.coinsInMachine.quarters += 1
+        case .dime:
+            self.coinsInMachine.dimes += 1
+        case .nickel:
+            self.coinsInMachine.nickels += 1
+        case .penny:
+            sendToCoinReturn(type: type)
+        }
+        
+        updateDiagnosticsText()
+    }
+    
+    /**
+     Method to remove the internal coin store.
+     
+     - Parameters:
+     - type: The type of coin being received.
+     */
+    func removeFromInternalCoinStore(type: Coins.CoinTypes, multiple: Int = 1) {
+        if self.displayTimer != nil {
+            self.displayTimer.invalidate()
+        }
+        
+        switch type {
+        case .quarter:
+            self.coinsInMachine.quarters -= 1 * multiple
+        case .dime:
+            self.coinsInMachine.dimes -= 1 * multiple
+        case .nickel:
+            self.coinsInMachine.nickels -= 1 * multiple
+        case .penny:
+            sendToCoinReturn(type: type)
+        }
+        
         updateDiagnosticsText()
     }
 
@@ -95,15 +152,19 @@ class Machine {
      - multiple: Defaults to 1, but can be used to send multiple of the same coin.
      */
     func sendToCoinReturn(type: Coins.CoinTypes, multiple: Int = 1) {
+        if self.displayTimer != nil {
+            self.displayTimer.invalidate()
+        }
+        
         switch type {
         case .quarter:
-            self.coinReturn.quarters += 1 * multiple
+            self.coinReturn.quarters += (1 * multiple)
         case .dime:
-            self.coinReturn.dimes += 1 * multiple
+            self.coinReturn.dimes += (1 * multiple)
         case .nickel:
-            self.coinReturn.nickels += 1 * multiple
+            self.coinReturn.nickels += (1 * multiple)
         case .penny:
-            self.coinReturn.pennies += 1 * multiple
+            self.coinReturn.pennies += (1 * multiple)
         }
         
         updateCoinReturnText()
@@ -134,6 +195,9 @@ class Machine {
     
     /// Method to collect all coins from coin return
     func emptyCoinReturn() {
+        if self.displayTimer != nil {
+            self.displayTimer.invalidate()
+        }
         self.coinReturn = MoneyCollection(quarters: 0, dimes: 0, nickels: 0, pennies: 0)
         updateCoinReturnText()
         updateDiagnosticsText()
@@ -141,6 +205,10 @@ class Machine {
     
     /// Method to return all coins
     func returnCoins() {
+        if self.displayTimer != nil {
+            self.displayTimer.invalidate()
+        }
+        
         makeChange(coins: self.coinsInserted)
         updateCoinReturnText()
         updateDiagnosticsText()
@@ -151,22 +219,36 @@ class Machine {
      Method to determine the correct quantities of coin types to make change
      
      - Parameters:
-     - product: The product being purchased.
+     - coins: The coins to change out.
      */
     func makeChange(coins: Double) {
+        canMakeChange()
+        
         var change = coins
-        let numQuarters = Int(floor(change / Coins.CoinTypes.quarter.rawValue))
+        var numQuarters = Int(floor(change / Coins.CoinTypes.quarter.rawValue))
+        if numQuarters >= self.coinsInMachine.quarters {
+            numQuarters = 0
+        }
         sendToCoinReturn(type: Coins.CoinTypes.quarter, multiple: numQuarters)
+        removeFromInternalCoinStore(type: Coins.CoinTypes.quarter, multiple: numQuarters)
         
         change -= 0.25 * Double(numQuarters)
         change = Double(round(100*change)/100)
-        let numDime = Int(floor(change / Coins.CoinTypes.dime.rawValue))
-        sendToCoinReturn(type: Coins.CoinTypes.dime, multiple: numDime)
+        var numDimes = Int(floor(change / Coins.CoinTypes.dime.rawValue))
+        if numDimes >= self.coinsInMachine.dimes {
+            numDimes = 0
+        }
+        sendToCoinReturn(type: Coins.CoinTypes.dime, multiple: numDimes)
+        removeFromInternalCoinStore(type: Coins.CoinTypes.dime, multiple: numDimes)
         
-        change -= 0.10 * Double(numDime)
+        change -= 0.10 * Double(numDimes)
         change = Double(round(100*change)/100)
-        let numNickel = Int(floor(change / Coins.CoinTypes.nickel.rawValue))
-        sendToCoinReturn(type: Coins.CoinTypes.nickel, multiple: numNickel)
+        var numNickels = Int(floor(change / Coins.CoinTypes.nickel.rawValue))
+        if numNickels >= self.coinsInMachine.dimes {
+            numNickels = 0
+        }
+        sendToCoinReturn(type: Coins.CoinTypes.nickel, multiple: numNickels)
+        removeFromInternalCoinStore(type: Coins.CoinTypes.dime, multiple: numNickels)
     }
     
     // MARK: - Product
@@ -178,17 +260,18 @@ class Machine {
      */
     func purchase(product: Products) -> Bool {
         if inStock(product: product) {
-            if self.coinsInserted - product.getPrice() >= 0 {
+            if (self.coinsInserted - product.getPrice() > 0 && !self.stateExactChangeOnly) ||
+                (self.coinsInserted - product.getPrice() == 0) {
+                product.itemSold()
                 makeChangeFrom(product: product)
                 displayDone()
                 updateDiagnosticsText()
                 return true
-            } else if self.coinsInserted - product.getPrice() < 0 {
+            } else {
                 displayPriceOfProduct(product: product)
                 updateDiagnosticsText()
+                return false
             }
-            
-            return false
         } else {
             displaySoldOut()
             updateDiagnosticsText()
@@ -234,7 +317,15 @@ class Machine {
             "\(self.coinsInMachine.dimes)x Dimes\n" +
             "\(self.coinsInMachine.nickels)x Nickels\n" +
             "\(self.coinsInMachine.pennies)x Pennies\n\n" +
-            "\(self.stateExactChangeOnly) - ExactChangeOnly"
+            "\(self.stateExactChangeOnly) - ExactChange"
+        
+        if productArray.count > 0 {
+            // this only works because I know the order I am adding the products...needs a better method
+            self.diagnosticsDisplay.text = self.diagnosticsDisplay.text! +
+                "\n\n\(productArray[0].getInventory())x cola\n" +
+                "\(productArray[1].getInventory())x chips\n" +
+                "\(productArray[2].getInventory())x candy"
+        }
     }
     
     // MARK: - Display Adjustments
@@ -247,51 +338,21 @@ class Machine {
     /// Sets the display to the default text - "INSERT COIN"
     func displaySoldOut() {
         self.display.text = "SOLD OUT"
-        
-        if self.coinsInserted > 0 {
-            // put the display back to default after 3 seconds
-            self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
-                                                     target: self,
-                                                     selector: #selector(displayMoneyInserted),
-                                                     userInfo: nil,
-                                                     repeats: false)
-        } else {
-            // put the display back to default after 3 seconds
-            self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
-                                                     target: self,
-                                                     selector: #selector(displayDefault),
-                                                     userInfo: nil,
-                                                     repeats: false)
-        }
+        displayDelayShow()
     }
     
     /// Sets the display to the default text - "INSERT COIN"
-    func displayExactChangeOnly() {
+    @objc func displayExactChangeOnly() {
         self.display.text = "EXACT CHANGE ONLY"
-        
-//        if self.coinsInserted > 0 {
-//            // put the display back to default after 3 seconds
-//            self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
-//                                                     target: self,
-//                                                     selector: #selector(displayMoneyInserted),
-//                                                     userInfo: nil,
-//                                                     repeats: false)
-//        } else {
-//            // put the display back to default after 3 seconds
-//            self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
-//                                                     target: self,
-//                                                     selector: #selector(displayDefault),
-//                                                     userInfo: nil,
-//                                                     repeats: false)
-//        }
+        displayDelayShow()
     }
 
     /// Sets the display to the done state - "THANK YOU"
     func displayDone() {
         self.display.text = "THANK YOU"
         
-        // put the display back to default after 3 seconds
-        self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
+        // put the display back to default after 1 seconds
+        self.displayTimer = Timer.scheduledTimer(timeInterval: 1,
                                                  target: self,
                                                  selector: #selector(displayDefault),
                                                  userInfo: nil,
@@ -306,13 +367,33 @@ class Machine {
     /// Sets the display to show the price of the selected product - "PRICE: $#.##"
     func displayPriceOfProduct(product: Products) {
         self.display.text = String(format: "PRICE: $%.02f", product.getPrice())
-        
-        // put the display back to default after 3 seconds
-        self.displayTimer = Timer.scheduledTimer(timeInterval: 3,
-                                                 target: self,
-                                                 selector: #selector(displayDefault),
-                                                 userInfo: nil,
-                                                 repeats: false)
+        displayDelayShow()
+    }
+    
+    /// Sets the display back to default or money inserted with delay
+    func displayDelayShow() {
+        if self.coinsInserted > 0 {
+            // put the display back to default after 1 seconds
+            self.displayTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                     target: self,
+                                                     selector: #selector(displayMoneyInserted),
+                                                     userInfo: nil,
+                                                     repeats: false)
+        } else if self.stateExactChangeOnly {
+            // put the display back to default after 1 seconds
+            self.displayTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                     target: self,
+                                                     selector: #selector(displayExactChangeOnly),
+                                                     userInfo: nil,
+                                                     repeats: false)
+        } else {
+            // put the display back to default after 1 seconds
+            self.displayTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                     target: self,
+                                                     selector: #selector(displayDefault),
+                                                     userInfo: nil,
+                                                     repeats: false)
+        }
     }
 
     /// Struct to hold the quantities of the coin options

@@ -35,6 +35,7 @@ class ViewController: UIViewController {
     
     @IBAction func quarterTouchUp(_ sender: Any) {
         vmachine.insertMoney(type: Coins.CoinTypes.quarter)
+        print("asd")
     }
     @IBAction func dimeTouchUp(_ sender: Any) {
         vmachine.insertMoney(type: Coins.CoinTypes.dime)
@@ -57,17 +58,19 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         // give the machine coins
-        let coinsInMachine = Machine.MoneyCollection(quarters: 10, dimes: 10, nickels: 10, pennies: 0)
+        let coinsInMachine = Machine.MoneyCollection(quarters: 1, dimes: 1, nickels: 1, pennies: 0)
         // initialize the machine
         vmachine = Machine(coinsInMachine: coinsInMachine, display: self.displayLabel)
         // create the products
-        cola = Products(type: Products.VendingItemType.cola, price: 1.00, inventory: 10)
+        cola = Products(type: Products.VendingItemType.cola, price: 1.00, inventory: 3)
         chips = Products(type: Products.VendingItemType.chips, price: 0.50, inventory: 10)
         candy = Products(type: Products.VendingItemType.candy, price: 0.65, inventory: 10)
         // connect the extra displays
         vmachine.coinReturnDisplay = self.coinReturnText
         vmachine.diagnosticsDisplay = self.diagnosticsText
-        
+        vmachine.productArray.append(cola)
+        vmachine.productArray.append(chips)
+        vmachine.productArray.append(candy)
     }
 
     override func didReceiveMemoryWarning() {
