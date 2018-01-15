@@ -10,6 +10,8 @@ import XCTest
 
 class VendingMachineUITests: XCTestCase {
 
+    var app: XCUIApplication!
+    
     override func setUp() {
         super.setUp()
 
@@ -19,7 +21,9 @@ class VendingMachineUITests: XCTestCase {
         continueAfterFailure = false
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens
         // for each test method.
-        XCUIApplication().launch()
+        
+        app = XCUIApplication()
+        app.launch()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for
         // your tests before they run. The setUp method is a good place to do this.
@@ -30,9 +34,51 @@ class VendingMachineUITests: XCTestCase {
         super.tearDown()
     }
 
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testInsertQuarter() {
+        app.buttons["Quarter"].tap()
+        XCTAssert(app.staticTexts["INSERTED: $0.25"].exists)
+    }
+    
+    func testReturnQuarter() {
+        app.buttons["Quarter"].tap()
+        XCTAssert(app.staticTexts["INSERTED: $0.25"].exists)
+        app.buttons["Return Coins"].tap()
+
+        let coinReturnText = "CoinReturn\n\n\(1)x Quarters\n" +
+            "\(0)x Dimes\n" + "\(0)x Nickels\n" + "\(0)x Pennies"
+        
+        XCTAssert(app.staticTexts[coinReturnText].exists)
     }
 
+    func testInsertDime() {
+        app.buttons["Dime"].tap()
+        XCTAssert(app.staticTexts["INSERTED: $0.10"].exists)
+    }
+    
+    func testReturnDime() {
+        app.buttons["Dime"].tap()
+        XCTAssert(app.staticTexts["INSERTED: $0.10"].exists)
+        app.buttons["Return Coins"].tap()
+        
+        let coinReturnText = "CoinReturn\n\n\(0)x Quarters\n" +
+            "\(1)x Dimes\n" + "\(0)x Nickels\n" + "\(0)x Pennies"
+        
+        XCTAssert(app.staticTexts[coinReturnText].exists)
+    }
+    
+    func testInsertNickel() {
+        app.buttons["Nickel"].tap()
+        XCTAssert(app.staticTexts["INSERTED: $0.05"].exists)
+    }
+    
+    func testReturnNickel() {
+        app.buttons["Nickel"].tap()
+        XCTAssert(app.staticTexts["INSERTED: $0.05"].exists)
+        app.buttons["Return Coins"].tap()
+        
+        let coinReturnText = "CoinReturn\n\n\(0)x Quarters\n" +
+            "\(0)x Dimes\n" + "\(1)x Nickels\n" + "\(0)x Pennies"
+        
+        XCTAssert(app.staticTexts[coinReturnText].exists)
+    }
 }

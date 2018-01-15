@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -10,13 +14,13 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Vending_Machine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="VendingMachine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VendingMachine" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hly-8X-T3l">
-                                <rect key="frame" x="10" y="40" width="580" height="40"/>
+                                <rect key="frame" x="10" y="40" width="355" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="UTR-eq-8P9"/>
                                 </constraints>
@@ -25,10 +29,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eEz-IM-icy" userLabel="Products">
-                                <rect key="frame" x="50" y="100" width="500" height="100"/>
+                                <rect key="frame" x="46" y="100" width="283" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9N-C8-UKt" userLabel="cola">
-                                        <rect key="frame" x="0.0" y="0.0" width="161.5" height="100"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="89" height="100"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="26"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                         <size key="titleShadowOffset" width="1" height="1"/>
@@ -41,7 +45,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TCd-oH-ZrE" userLabel="chips">
-                                        <rect key="frame" x="169" y="0.0" width="161" height="100"/>
+                                        <rect key="frame" x="97" y="0.0" width="89" height="100"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="26"/>
                                         <size key="titleShadowOffset" width="1" height="1"/>
                                         <state key="normal" title="$0.50" backgroundImage="Chips">
@@ -53,7 +57,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pni-Gd-AhO" userLabel="candy">
-                                        <rect key="frame" x="338" y="0.0" width="161.5" height="100"/>
+                                        <rect key="frame" x="194" y="0.0" width="89" height="100"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="26"/>
                                         <size key="titleShadowOffset" width="1" height="1"/>
                                         <state key="normal" title="$0.65" backgroundImage="Candy">
@@ -70,7 +74,7 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DisplayText" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tR-xr-F3e">
-                                <rect key="frame" x="20" y="220" width="560" height="60"/>
+                                <rect key="frame" x="20" y="220" width="335" height="60"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="EWI-oP-mjv"/>
@@ -80,10 +84,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rkj-oN-Yb2" userLabel="Coins">
-                                <rect key="frame" x="40" y="300" width="520" height="60"/>
+                                <rect key="frame" x="40" y="300" width="295" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovI-hx-c2b" userLabel="quarter">
-                                        <rect key="frame" x="0.0" y="0.0" width="124" height="60"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="68" height="60"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Quarter">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -93,7 +97,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4zW-z0-DDa" userLabel="dime">
-                                        <rect key="frame" x="132" y="0.0" width="124" height="60"/>
+                                        <rect key="frame" x="76" y="0.0" width="67.5" height="60"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Dime">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -103,7 +107,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCS-PA-62g" userLabel="nickel">
-                                        <rect key="frame" x="264" y="0.0" width="124" height="60"/>
+                                        <rect key="frame" x="151.5" y="0.0" width="68" height="60"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Nickel">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,7 +117,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OWN-MC-H3B" userLabel="penny">
-                                        <rect key="frame" x="396" y="0.0" width="124" height="60"/>
+                                        <rect key="frame" x="227.5" y="0.0" width="67.5" height="60"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Penny">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -129,16 +133,20 @@
                                 <viewLayoutGuide key="safeArea" id="Hqb-3a-uaD"/>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="OlW-CH-XcZ" userLabel="Output">
-                                <rect key="frame" x="30" y="380" width="540" height="177"/>
+                                <rect key="frame" x="30" y="380" width="315" height="177"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="CoinReturn" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaY-bp-Nxv" userLabel="CoinReturn">
-                                        <rect key="frame" x="0.0" y="0.0" width="270" height="177"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="157.5" height="177"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="coinReturn" label="coinReturn">
+                                            <accessibilityTraits key="traits" staticText="YES"/>
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Diagnostics" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwx-mG-Ijt" userLabel="Diagnostics">
-                                        <rect key="frame" x="270" y="0.0" width="270" height="177"/>
+                                        <rect key="frame" x="157.5" y="0.0" width="157.5" height="177"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -149,10 +157,10 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zlR-ac-haj" userLabel="GetCoins">
-                                <rect key="frame" x="50" y="577" width="500" height="60"/>
+                                <rect key="frame" x="46" y="577" width="283" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N5h-u0-vl6">
-                                        <rect key="frame" x="0.0" y="0.0" width="246" height="60"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="137.5" height="60"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Collect Coins">
@@ -163,7 +171,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AMd-ie-NmB">
-                                        <rect key="frame" x="254" y="0.0" width="246" height="60"/>
+                                        <rect key="frame" x="145.5" y="0.0" width="137.5" height="60"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Return Coins">
