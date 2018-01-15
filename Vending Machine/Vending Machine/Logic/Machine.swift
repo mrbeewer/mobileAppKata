@@ -241,11 +241,11 @@ class Machine {
         change -= 0.10 * Double(numDimes)
         change = Double(round(100*change)/100)
         var numNickels = Int(floor(change / Coins.CoinTypes.nickel.rawValue))
-        if numNickels >= self.coinsInMachine.dimes {
+        if numNickels >= self.coinsInMachine.nickels {
             numNickels = 0
         }
         sendToCoinReturn(type: Coins.CoinTypes.nickel, multiple: numNickels)
-        removeFromInternalCoinStore(type: Coins.CoinTypes.dime, multiple: numNickels)
+        removeFromInternalCoinStore(type: Coins.CoinTypes.nickel, multiple: numNickels)
     }
     
     // MARK: - Product

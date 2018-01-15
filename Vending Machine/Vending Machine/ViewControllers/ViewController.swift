@@ -35,7 +35,6 @@ class ViewController: UIViewController {
     
     @IBAction func quarterTouchUp(_ sender: Any) {
         vmachine.insertMoney(type: Coins.CoinTypes.quarter)
-        print("asd")
     }
     @IBAction func dimeTouchUp(_ sender: Any) {
         vmachine.insertMoney(type: Coins.CoinTypes.dime)
